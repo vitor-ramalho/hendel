@@ -16,20 +16,30 @@
         add_image_size('slide', 1000, 800, ['center', 'top']);
         update_option('medium_crop', 1);
     }
+    add_action('after_setup_theme', 'handel_custom_images' );
 
     function handel_loop_shop_per_page(){
         return 6;
     }
-
     add_filter('loop_shop_per_page', 'handel_loop_shop_per_page');
 
-    function mudar_classe_preco(){
-        return 'price';
-    }
-    add_filter('woocommerce_product_price_class', 'mudar_classe_preco');
 
-    function adicionar_antes_do_produto(){
-        echo "isso é antes";
+    function handel_product_list($products){ ?>
+        <ul class="products-list">
+            <?php foreach($products as $product) { ?>
+            <li class="product-item">
+                <a href="<?= $product['link']; ?>">
+                    <div class="product-info">
+                        <img src="<?= $product['img'] ?>" alt="<?= $product['name'] ?>">
+                        <h2><?= $product['name'] ?> - <span><?= $product['price'] ?></span</h2>
+                    </div>
+                    <div class="product-overlay">
+                        <span class="btn-link">Ver Mais</span>
+                    </div>
+                </a>    
+            <?php } ?>            
+        </ul>
+        <?php
     }
-    add_action('woocommerce_before_single_product', 'adicionar_antes_do_produto');
+    
 ?>
